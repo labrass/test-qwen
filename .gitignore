@@ -1,0 +1,28 @@
+# Données personnelles, sorties et journaux : restent sur le PC.
+/data/
+/inputs/
+/results/
+/logs/
+
+# Poids et moteur téléchargés séparément.
+/models/
+/bin/
+*.gguf
+*.safetensors
+*.zip
+*.7z
+*.exe
+*.dll
+
+# Environnement local et secrets.
+/.venv/
+.env
+.env.*
+*.pem
+*.key
+__pycache__/
+*.py[cod]
+.interface-test-*/
+.pytest_cache/
+.DS_Store
+Thumbs.db
