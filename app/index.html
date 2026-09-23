@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Qwen · Atelier local</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/resolution.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Qwen Atelier local, accueil"><span class="mark">Q</span><span>Qwen <span class="brand-light">Atelier local</span></span></a>
+    <div class="local-badge"><span class="dot"></span> 100 % sur ce PC</div>
+  </header>
+  <div class="intro"><div><p class="eyebrow">QWEN-IMAGE-2.1 · GGUF 4 BITS</p><h1>Une photo. Une nouvelle idée.</h1><p class="lede">Décrivez votre retouche, puis laissez votre NVIDIA travailler.</p></div><span id="engine-badge" class="badge">Connexion…</span></div>
+  <div id="connection-error" class="notice error" role="alert" hidden></div>
+  <div id="installation-error" class="notice error" role="alert" hidden></div>
+  <main class="workspace">
+    <section class="card controls" aria-labelledby="new-title">
+      <div class="section-heading"><h2 id="new-title">Nouvel essai</h2><span class="step-number">01</span></div>
+      <form id="job-form">
+        <div class="mode-picker" role="group" aria-label="Type d’essai"><button id="mode-edit" type="button" class="mode active" aria-pressed="true">Retoucher une photo</button><button id="mode-generate" type="button" class="mode" aria-pressed="false">Créer une image</button></div>
+        <div id="photo-area">
+          <label class="field-label" for="photo">Photo de départ</label>
+          <label id="dropzone" class="dropzone" for="photo">
+            <span id="upload-placeholder"><span class="upload-symbol">↥</span><strong>Choisir une photo</strong><span>ou la déposer ici · PNG, JPEG, WebP</span></span>
+            <img id="upload-preview" alt="Votre photo de départ" hidden>
+            <span id="replace-photo" hidden>Changer de photo</span>
+          </label>
+          <input id="photo" class="sr-only" type="file" accept="image/png,image/jpeg,image/webp">
+          <p id="upload-info" class="hint">Photos 1K, 2K, 4K et plus · préparation locale jusqu’à 4 096 px sur le côté long · 32 Mo max.</p>
+        </div>
+        <label class="field-label" for="prompt">Votre consigne</label>
+        <textarea id="prompt" required maxlength="12000" rows="4" placeholder="Remplace le fond par un jardin lumineux. Garde le sujet et ses détails inchangés."></textarea>
+        <button type="button" id="example" class="text-button">Utiliser un exemple</button>
+        <label class="field-label" for="resolution">Résolution · côté le plus court</label>
+        <select id="resolution">
+          <option value="1024" selected>1K · 1 024 px</option>
+          <option value="2048">2K · 2 048 px</option>
+          <option value="3072">3K · 3 072 px</option>
+          <option value="4096">4K · 4 096 px</option>
+        </select>
+        <div id="generation-format" hidden>
+          <label class="field-label" for="generation-ratio">Format de l’image</label>
+          <select id="generation-ratio"><option value="1:1">Carré · 1:1</option><option value="3:2">Paysage · 3:2</option><option value="2:3">Portrait · 2:3</option><option value="4:3">Paysage · 4:3</option><option value="3:4">Portrait · 3:4</option><option value="16:9">Large · 16:9</option><option value="9:16">Vertical · 9:16</option></select>
+        </div>
+        <div class="output-dimensions" aria-live="polite"><span>Image de sortie</span><strong id="output-size">1 024 × 1 024 px</strong><p id="ratio-info" class="hint">Les proportions suivront automatiquement votre photo.</p></div>
+        <p id="resolution-error" class="notice error" role="alert" hidden></p>
+        <div class="settings-grid">
+          <label>Étapes<input id="steps" type="number" min="1" max="100" step="1" value="20" required></label>
+          <label>Guidage CFG<input id="cfg" type="number" min="1" max="20" step="0.1" value="6" required></label>
+        </div>
+        <div class="seed-row"><label for="seed">Graine <span class="hint">−1 = aléatoire</span><input id="seed" type="number" min="-1" max="2147483647" step="1" value="42" required></label><button type="button" id="random-seed" class="secondary" title="Choisir une graine aléatoire à chaque essai">Aléatoire</button></div>
+        <p id="resolution-cost" class="memory-note">1K : 1 024 px sur le côté le plus court. Comptez plusieurs minutes par essai ; la durée dépend aussi du format de la photo.</p>
+        <div id="form-error" class="notice error" role="alert" hidden></div>
+        <button id="launch" type="submit" class="primary" disabled><span>Lancer la retouche</span><span aria-hidden="true">↗</span></button>
+        <p class="privacy">Les photos, consignes et résultats restent sur votre ordinateur.</p>
+      </form>
+    </section>
+    <section class="card result-card" aria-labelledby="result-title">
+      <div class="section-heading"><h2 id="result-title">Votre résultat</h2><span class="step-number">02</span></div>
+      <div id="empty-result" class="empty-result"><span class="empty-art" aria-hidden="true">✳</span><h3>La place pour votre prochaine idée.</h3><p>Ajoutez une photo et décrivez ce que vous souhaitez changer.</p><span class="empty-tag">CUDA · RTX 5060 Ti · 16 Go</span></div>
+      <div id="job-result" hidden>
+        <div class="job-topline"><span id="job-status" class="badge"></span><span id="elapsed" class="hint"></span></div>
+        <div id="running-info" class="running-info" hidden><div class="activity"><span></span></div><p id="running-label">Préparation…</p><button id="cancel" type="button" class="text-button danger">Annuler cet essai</button></div>
+        <div id="job-error" class="notice error" role="alert" hidden></div>
+        <div id="image-comparison" class="image-comparison" hidden>
+          <figure id="source-figure" hidden><figcaption>Photo de départ</figcaption><a id="source-link" target="_blank" rel="noopener"><img id="source-image" alt="Photo utilisée pour cet essai"></a></figure>
+          <figure id="output-figure" hidden><figcaption>Résultat</figcaption><a id="output-link" target="_blank" rel="noopener"><img id="output-image" alt="Image produite localement par Qwen"></a></figure>
+        </div>
+        <div id="download-row" class="download-row" hidden><a id="download" class="secondary" download="qwen-resultat.png">Enregistrer l’image ↓</a><button id="reuse-settings" class="text-button" type="button">Reprendre les réglages</button></div>
+        <p id="job-prompt" class="job-prompt"></p><p id="job-settings" class="hint"></p>
+        <details id="logs-details" class="logs"><summary>Journal et diagnostic <span id="log-state"></span></summary><p class="hint">Sortie du moteur en direct. Le chargement peut rester silencieux un moment.</p><pre id="log-tail" tabindex="0" aria-label="Journal du moteur"></pre><div class="log-links"><a id="full-log">Journal complet</a><a id="metadata-link">Métadonnées</a><a id="command-link">Commande</a><a id="diagnostics-link">Diagnostic NVIDIA</a></div></details>
+        <p id="run-folder" class="folder-path"></p>
+      </div>
+    </section>
+  </main>
+  <section class="history-section" aria-labelledby="history-title"><div class="history-heading"><h2 id="history-title">Vos essais</h2><span class="hint">Conservés après fermeture de l’interface</span></div><div id="history" class="history"><p class="hint">Aucun essai pour le moment.</p></div></section>
+  <footer><span>stable-diffusion.cpp · Aucune génération en ligne</span><details><summary>Installation locale</summary><p id="root-path"></p><ul id="model-files"></ul><p>Erreurs de l’interface : logs/interface.log. Chaque essai conserve ses propres journaux.</p></details></footer>
+</div>
+</body>
+</html>

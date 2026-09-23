@@ -1,0 +1,18 @@
+{
+  "sd_cli": "bin/sd-cli.exe",
+  "models": {
+    "diffusion": "models/qwen-image-2.1-Q4_K_M.gguf",
+    "llm": "models/Qwen3-VL-8B-Instruct-UD-Q4_K_XL.gguf",
+    "vision": "models/mmproj-F16.gguf",
+    "vae": "models/qwen_image_2.1_vae_bf16.safetensors"
+  },
+  "extra_args": [
+    "--backend", "cuda0",
+    "--offload-to-cpu",
+    "--fa",
+    "--vae-tiling",
+    "--max-vram", "14",
+    "--model-args", "qwen_image_2_1_prefix_cache=false",
+    "-v"
+  ]
+}

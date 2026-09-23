@@ -1,0 +1,49 @@
+{
+  "release": "master-905-70c1dbc",
+  "commit": "70c1dbc01e10e5da8227cb43e99daa01ea910af1",
+  "release_url": "https://github.com/leejet/stable-diffusion.cpp/releases/tag/master-905-70c1dbc",
+  "files": [
+    {
+      "name": "qwen-image-2.1-Q4_K_M.gguf",
+      "kind": "model",
+      "url": "https://huggingface.co/unsloth/Qwen-Image-2.1-GGUF/resolve/2c31ccd392b367a6637841a143813320a02dff55/qwen-image-2.1-Q4_K_M.gguf",
+      "size": 4199565024,
+      "sha256": "631d532e7ca71e8d90a87c71d3699761a812039d22e3370e87498d87754660fe"
+    },
+    {
+      "name": "Qwen3-VL-8B-Instruct-UD-Q4_K_XL.gguf",
+      "kind": "model",
+      "url": "https://huggingface.co/unsloth/Qwen3-VL-8B-Instruct-GGUF/resolve/b93a7ee713758252c555be4210c00540df954dc2/Qwen3-VL-8B-Instruct-UD-Q4_K_XL.gguf",
+      "size": 5148699488,
+      "sha256": "e3d1a6e87c5cb31e054f2c3bc0dd82ffde052f613de5eef3665b7bd33c9b703e"
+    },
+    {
+      "name": "mmproj-F16.gguf",
+      "kind": "model",
+      "url": "https://huggingface.co/unsloth/Qwen3-VL-8B-Instruct-GGUF/resolve/b93a7ee713758252c555be4210c00540df954dc2/mmproj-F16.gguf",
+      "size": 1159030336,
+      "sha256": "d406d03ebabefdef86a2c86bf0c1b65f9e046f7a81c218f25de4931b46a07fc4"
+    },
+    {
+      "name": "qwen_image_2.1_vae_bf16.safetensors",
+      "kind": "model",
+      "url": "https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/9a44dbdb47cefd046be9c0a13476192f34c8db8e/vae/qwen_image_2.1_vae_bf16.safetensors",
+      "size": 675509688,
+      "sha256": "bb21f7473051e1ac368515dd3f2e15cd44d7a11748ee8823e1ddca3e4876b7c9"
+    },
+    {
+      "name": "cudart-sd-bin-win-cu12-x64.zip",
+      "kind": "archive",
+      "url": "https://github.com/leejet/stable-diffusion.cpp/releases/download/master-905-70c1dbc/cudart-sd-bin-win-cu12-x64.zip",
+      "size": 563452046,
+      "sha256": "fe20366827d357c00797eebb58244dddab7fd9a348d70090c3871004c320f38d"
+    },
+    {
+      "name": "sd-master-70c1dbc-bin-win-cuda12-x64.zip",
+      "kind": "archive",
+      "url": "https://github.com/leejet/stable-diffusion.cpp/releases/download/master-905-70c1dbc/sd-master-70c1dbc-bin-win-cuda12-x64.zip",
+      "size": 333393007,
+      "sha256": "81a86718eae9579e3c7bb5775bfedb7ef8e7cdc22ef0ee406d35efe7de668bd3"
+    }
+  ]
+}
